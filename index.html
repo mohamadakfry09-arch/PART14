@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Pribadi - Mohamad Akfry</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+    
+    <style>
+        /* PERUBAHAN: Latar belakang "Spotlight" interaktif */
+        body {
+            /* Fallback background */
+            background-color: #1a202c; 
+            /* Gradien awal. Akan diperbarui oleh JS */
+            background-image: radial-gradient(circle 400px at 50% 50%, #3a4a6e, #1a202c);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* Transisi halus saat gradien berpindah */
+            transition: background 0.2s linear; 
+        }
+
+        .nav-link.active {
+            color: white;
+            background-color: #3B82F6; /* Tailwind blue-500 */
+        }
+        
+        /* PERUBAHAN: Transisi untuk efek "magnetik" */
+        .nav-link {
+            transition: transform 0.1s ease-out, background-color 0.2s, color 0.2s;
+        }
+        
+        /* CSS untuk transisi halaman (Sedikit perbaikan) */
+        .page-content {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s;
+            position: absolute; 
+            /* Memastikan padding dari 'p-4 sm:p-6' di .container tidak terpengaruh */
+            left: 1.5rem; 
+            right: 1.5rem;
+            /* Dihapus: width, max-width, padding (biarkan container yg urus) */
+        }
+
+        .page-content.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            position: relative; /* Ini benar */
+            left: auto;
+            right: auto;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-content.active .animate-child {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        
+        /* Stagger (penundaan) animasi */
+        .page-content.active .animate-child:nth-child(1) { animation-delay: 0.1s; }
+        .page-content.active .animate-child:nth-child(2) { animation-delay: 0.2s; }
+        .page-content.active .animate-child:nth-child(3) { animation-delay: 0.3s; }
+        .page-content.active .animate-child:nth-child(4) { animation-delay: 0.4s; }
+        .page-content.active .animate-child:nth-child(5) { animation-delay: 0.5s; }
+        .page-content.active .animate-child:nth-child(6) { animation-delay: 0.6s; }
+        .page-content.active .animate-child:nth-child(7) { animation-delay: 0.7s; }
+        .page-content.active .animate-child:nth-child(8) { animation-delay: 0.8s; }
+        .page-content.active .animate-child:nth-child(9) { animation-delay: 0.9s; }
+        .page-content.active .animate-child:nth-child(10) { animation-delay: 1.0s; }
+
+
+        #typing-text::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* PERUBAHAN: CSS untuk efek hover kartu proyek */
+        .project-card {
+            /* Ini penting agar gambar yg di-zoom tidak keluar card */
+            overflow: hidden; 
+        }
+        .project-card img {
+            transition: transform 0.4s ease-out;
+        }
+        .project-card:hover img {
+            transform: scale(1.1);
+        }
+        .project-card h3 {
+            transition: color 0.3s ease-out;
+        }
+        .project-card:hover h3 {
+            color: #3B82F6; /* Tailwind blue-500 */
+        }
+
+    </style>
+</head>
+<body class="font-sans bg-slate-900 text-gray-100">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6">
+    
+        <header class="bg-white shadow-lg rounded-xl p-6 mb-6 sticky top-4 z-10">
+            <nav class="flex flex-col sm:flex-row justify-between items-center">
+                <h1 class="text-3xl font-bold text-blue-600 mb-4 sm:mb-0">Mohamad Akfry</h1>
+                <ul class="flex space-x-2">
+                    <li><a href="#home" class="nav-link active px-4 py-2 rounded-md text-gray-700 hover:bg-blue-500 hover:text-white">Home</a></li>
+                    <li><a href="#about" class="nav-link px-4 py-2 rounded-md text-gray-700 hover:bg-blue-500 hover:text-white">About</a></li>
+                    <li><a href="#project" class="nav-link px-4 py-2 rounded-md text-gray-700 hover:bg-blue-500 hover:text-white">Project</a></li>
+                    <li><a href="#contact" class="nav-link px-4 py-2 rounded-md text-gray-700 hover:bg-blue-500 hover:text-white">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="relative min-h-[500px]"> 
+        
+            <section id="home" class="page-content active bg-white shadow-lg rounded-xl p-8 mb-6 text-gray-900">
+                <h2 class="text-3xl font-bold mb-6 text-blue-600">Selamat Datang!</h2>
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" 
+                         alt="Foto Profil" 
+                         class="rounded-full w-36 h-36 md:w-40 md:h-40 shadow-md border-4 border-white">
+                    <div class="text-center md:text-left">
+                        <p class="text-xl text-gray-800 mb-2">Halo, saya <strong>Mohamad Akfry</strong>.</p>
+                        <p id="typing-text" class="text-lg text-gray-600 min-h-[50px] md:min-h-[auto]" 
+                           data-text="Saya seorang mahasiswa Manajemen Informatika di STMIK IKMI CIREBON dengan gairah untuk di bidang Frontend."></p>
+                        <p class="text-gray-600 mt-2">Selamat datang di portofolio pribadi saya. Silakan lihat-lihat!</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="about" class="page-content bg-white shadow-lg rounded-xl p-8 mb-6 text-gray-900">
+                <h2 class="text-3xl font-bold mb-6 text-blue-600">Tentang Saya</h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Saya adalah seorang pemecah masalah yang kreatif dan pembelajar yang cepat, selalu antusias untuk mendalami teknologi baru dan berkontribusi dalam proyek-proyek yang menantang. Saya memiliki dasar yang kuat dalam Front-End Development dan UI/UX Design.
+                </p>
+                
+                <h3 class="text-2xl font-semibold mb-4">Skill Saya</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full font-medium animate-child">JavaScript</span>
+                    <span class="bg-sky-100 text-sky-800 px-4 py-1 rounded-full font-medium animate-child">Tailwind CSS</span>
+                    <span class="bg-orange-100 text-orange-800 px-4 py-1 rounded-full font-medium animate-child">HTML5</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-1 rounded-full font-medium animate-child">CSS3</span>
+                    <span class="bg-red-100 text-red-800 px-4 py-1 rounded-full font-medium animate-child">Java</span>
+                    <span class="bg-green-100 text-green-800 px-4 py-1 rounded-full font-medium animate-child">Node.js</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-1 rounded-full font-medium animate-child">Figma</span>
+                    <span class="bg-violet-100 text-violet-800 px-4 py-1 rounded-full font-medium animate-child">Bootstrap</span>
+                    <span class="bg-gray-200 text-gray-800 px-4 py-1 rounded-full font-medium animate-child">Git & GitHub</span>
+                </div>
+            </section>
+            
+            <section id="project" class="page-content bg-white shadow-lg rounded-xl p-8 mb-6 text-gray-900">
+                <h2 class="text-3xl font-bold mb-6 text-blue-600">Proyek Saya</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div class="project-card border rounded-lg shadow-md transition-transform hover:scale-[1.02] animate-child">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4oVpvxj50gXDwYl-XEbcSC1LuBCgRYVqxVg&s" alt="Proyek 1" class="w-full h-48 object-cover">
+                        <div class="p-5">
+                            <h3 class="text-xl font-semibold mb-2">Membuat Sistem Absen</h3>
+                            <p class="text-gray-600 text-sm mb-4">Aplikasi ini dibuat untuk memenuhi tugas akhir pkl.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card border rounded-lg shadow-md transition-transform hover:scale-[1.02] animate-child">
+                        <img src="https://i.ytimg.com/vi/3XHMWp1dkh0/maxresdefault.jpg" alt="Proyek 2" class="w-full h-48 object-cover">
+                        <div class="p-5">
+                            <h3 class="text-xl font-semibold mb-2">Galery</h3>
+                            <p class="text-gray-600 text-sm mb-4">Aplikasi ini buat untuk UKK SMK RPL.</p>
+                        </div>
+                    </div>    
+
+                </div>
+            </section>
+            
+            <section id="contact" class="page-content bg-white shadow-lg rounded-xl p-8 mb-6 text-gray-900">
+                <h2 class="text-3xl font-bold mb-6 text-blue-600">Hubungi Saya</h2>
+                <p class="text-gray-600 mb-6">Punya pertanyaan atau ingin berkolaborasi? Jangan ragu untuk mengirim saya pesan!</p>
+                
+                <form id="contact-form">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                        <input type="text" id="name" name="name" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Pesan</label>
+                        <textarea id="message" name="message" rows="5" required 
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors duration-200">
+                        Kirim Pesan
+                    </button>
+                </form>
+                
+                <div id="form-message" class="mt-4 text-center p-3 rounded-md hidden"></div>
+            </section>
+            
+        </main>
+
+        <footer class="text-center text-gray-400 text-sm mt-10">
+            <p>&copy; 2025 Mohamad Akfry</p>
+        </footer>
+        
+    </div> 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+            
+            const typingTextElement = document.getElementById('typing-text');
+            const textToType = typingTextElement.dataset.text;
+            let typeIndex = 0;
+            let typingTimeout;
+
+            // --- FUNGSI HALAMAN & EFEK MENGETIK (Tetap sama) ---
+
+            function showPage(pageId) {
+                pages.forEach(page => page.classList.remove('active'));
+                const activePage = document.getElementById(pageId);
+                if (activePage) activePage.classList.add('active');
+            }
+
+            function typeWriter() {
+                if (typeIndex < textToType.length) {
+                    typingTextElement.innerHTML += textToType.charAt(typeIndex);
+                    typeIndex++;
+                    clearTimeout(typingTimeout); 
+                    typingTimeout = setTimeout(typeWriter, 50);
+                }
+            }
+            
+            function startTyping() {
+                typingTextElement.innerHTML = '';
+                typeIndex = 0;
+                clearTimeout(typingTimeout);
+                typeWriter();
+            }
+
+            // --- NAVIGASI ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); 
+                    const pageId = this.getAttribute('href').substring(1);
+                    showPage(pageId);
+                    if (pageId === 'home') startTyping();
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+
+                // PERUBAHAN: Efek "Magnetik" pada Navigasi
+                link.addEventListener('mousemove', (e) => {
+                    const { offsetX, offsetY, target } = e;
+                    const { clientWidth, clientHeight } = target;
+                    // Hitung pergerakan, 0.3 = 30% intensitas
+                    const x = (offsetX - clientWidth / 2) * 0.3; 
+                    const y = (offsetY - clientHeight / 2) * 0.3;
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                });
+
+                link.addEventListener('mouseleave', (e) => {
+                    // Reset posisi saat mouse pergi
+                    e.target.style.transform = `translate(0,0)`;
+                });
+            });
+
+            // Tampilkan home & mulai mengetik
+            showPage('home');
+            startTyping();
+
+            // --- FORM KONTAK (Tetap sama) ---
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                const name = document.getElementById('name').value;
+                formMessage.textContent = `Terima kasih, ${name}! Pesan Anda telah (disimulasikan) terkirim.`;
+                formMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+                formMessage.classList.add('bg-green-100', 'text-green-700');
+                contactForm.reset();
+                setTimeout(() => formMessage.classList.add('hidden'), 5000);
+            });
+
+
+            // PERUBAHAN: Efek "Spotlight" Latar Belakang
+            document.body.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+                // Ubah posisi mouse (pixel) jadi persentase
+                const x = (clientX / innerWidth) * 100;
+                const y = (clientY / innerHeight) * 100;
+                // Update CSS background-image di body
+                document.body.style.backgroundImage = `radial-gradient(circle 400px at ${x}% ${y}%, #2e3a59, #1a202c)`;
+            });
+
+        });
+    </script>
+
+</body>
+</html>
